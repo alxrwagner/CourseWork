@@ -1,5 +1,11 @@
+import dailyPlanner.TaskService;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        TaskService dailyPlanner = new TaskService();
+
+        dailyPlanner.startWork();
+//        dailyPlanner.addTask();
+//        System.out.println(dailyPlanner.getTasks().peek());
     }
 }
