@@ -22,6 +22,9 @@ public class TaskService {
     public void getAllByDate(LocalDate date) {
         Collection<Task> values = tasks.values();
         values.stream().filter(task -> task.appearsIn(date)).forEach(System.out::println);
+        if (values.size() == 0){
+            System.out.println(date + " - задач нет\n");
+        }
     }
 
     public void addTask(Task task) {

@@ -16,7 +16,6 @@ import java.util.Scanner;
 
 public class Main {
     public static TaskService dailyPlanner = new TaskService();
-    public static Scanner reader = new Scanner(System.in);
 
     public static void main(String[] args) {
         startWork();
@@ -24,7 +23,7 @@ public class Main {
 
     public static void startWork() {
         boolean isWork = true;
-
+        Scanner reader = new Scanner(System.in);
         while (isWork) {
             System.out.println("Доступные команды: " +
                     "\n1 - Добавить задачу" +
@@ -46,11 +45,17 @@ public class Main {
                     break;
                 case "3":
                     System.out.println("Введите ID задачи: ");
-                    int input = reader.nextInt();
-                    try {
-                        dailyPlanner.remove(input);
-                    } catch (TaskNotFoundExeption e) {
-                        System.out.println(e.getMessage());
+                    Scanner scanner = new Scanner(System.in);
+                    if (scanner.hasNextInt()) {
+                        int input = scanner.nextInt();
+                        try {
+                            dailyPlanner.remove(input);
+                            System.out.println("Задача с ID " + input + " удалена");
+                        } catch (TaskNotFoundExeption e) {
+                            System.out.println(e.getMessage());
+                        }
+                    }else {
+                        System.err.println("Неверный формат ввода. Необходимо ввести число");
                     }
                     break;
                 case "4":
@@ -58,7 +63,8 @@ public class Main {
                     isWork = false;
                     break;
                 default:
-                    System.out.println("Такой команды не существует. Попробуйте еще раз: ");
+                    System.err.println("Такой команды не существует.");
+                    System.out.println("Введите другую команду: ");
                     break;
             }
         }
@@ -72,6 +78,7 @@ public class Main {
         LocalTime timeNotify;
         Type typeTask;
         String typeRepeat;
+        Scanner reader = new Scanner(System.in);
 
         System.out.println("Введите заголовок задачи: ");
         title = setText();
@@ -122,76 +129,81 @@ public class Main {
         }
         return null;
     }
+
     public static Type setType() {
         System.out.println("Введите номер типа задачи: ");
         System.out.println();
         Arrays.stream(Type.values()).forEach(type -> System.out.println((type.ordinal() + 1) + ": " + type));
         int userInput;
-        Type type = null;
+        Type type;
+        Scanner reader = new Scanner(System.in);
 
-        if(reader.hasNextInt()) {
+        if (reader.hasNextInt()) {
             userInput = reader.nextInt();
             type = Arrays.stream(Type.values())
                     .filter(t -> t.ordinal() == userInput - 1)
                     .findFirst()
                     .orElse(null);
-            while ( type == null){
-                System.out.println("Такого типа не существует");
+            while (type == null) {
+                System.err.println("Такого типа не существует");
                 type = setType();
             }
-        }else {
-            System.out.println("Введите число!");
-            setType();
+        } else {
+            System.err.print("Необходимо ввести число!\n");
+            type = setType();
         }
 
         return type;
     }
 
-    public static String setText(){
+    public static String setText() {
+        Scanner reader = new Scanner(System.in);
         String text = reader.nextLine();
         while (text == null || text.isBlank()) {
-            System.out.println("Поле не может быть пустым");
+            System.err.println("Поле не может быть пустым");
+            System.out.println("Введите текст: ");
             text = reader.nextLine();
         }
-
         return text;
     }
+
     public static LocalDate addDate() {
+        Scanner reader = new Scanner(System.in);
         System.out.println("Введите дату в формате dd.MM.yyyy: ");
         LocalDate date = null;
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        //boolean isSuccess = false;
+        boolean isSuccess = false;
 
-       // while (!isSuccess) {
+        while (!isSuccess) {
             try {
                 date = LocalDate.parse(reader.nextLine(), dateFormatter);
-                //isSuccess = true;
+                isSuccess = true;
             } catch (DateTimeException e) {
-                System.out.println(e.getMessage());
-                //date = reader.nextLine();
+                System.err.println("Неверный формат даты!");
+                System.out.println("Попробуйте еще раз: ");
             }
-       // }
+        }
 
         return date;
     }
 
     public static LocalTime addTime() {
+        Scanner reader = new Scanner(System.in);
         System.out.println("Введите время в формате HH:mm: ");
-        String time = reader.nextLine();
+        LocalTime time = null;
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
 
         boolean isSuccess = false;
 
         while (!isSuccess) {
             try {
-                LocalTime.parse(time, timeFormatter);
+                time = LocalTime.parse(reader.nextLine(), timeFormatter);
                 isSuccess = true;
             } catch (DateTimeException e) {
-                System.out.println(e.getMessage());
-                time = reader.nextLine();
+                System.err.println("Неверный формат времени!");
+                System.out.println("Попробуйте еще раз: ");
             }
         }
-
-        return LocalTime.parse(time, timeFormatter);
+        return time;
     }
 }

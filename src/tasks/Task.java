@@ -5,6 +5,8 @@ import errors.IncorrectArgumentExeption;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.Objects;
 
 public abstract class Task{
@@ -83,11 +85,12 @@ public abstract class Task{
 
     @Override
     public String toString() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, MMM dd, yyyy HH:mm a");
         return "Задача: " +
                 "id: " + id +
                 ", Тип: " + type.toString() +
                 ", Заголовок: " + title +
                 ", Описание: " + description +
-                ", Дата и время уведомления: " + dateTime;
+                ", Дата и время уведомления: " + dateTime.format(formatter);
     }
 }
