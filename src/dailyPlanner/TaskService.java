@@ -221,7 +221,4 @@ public class TaskService {
         return LocalTime.parse(time, timeFormatter);
     }
 
-    public Map<Integer, Task> getTasks() {
-        return tasks;
-    }
 }
