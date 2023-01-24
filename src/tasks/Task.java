@@ -1,6 +1,7 @@
 package tasks;
 
 import enums.Type;
+import errors.IncorrectArgumentExeption;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -9,22 +10,24 @@ import java.util.Objects;
 public abstract class Task{
     protected final Integer id;
     protected final Type type;
+    protected final LocalDateTime dateTime;
 
-    protected StringBuilder title;
-    protected StringBuilder description;
-    protected LocalDateTime dateTime;
+    protected String title;
+    protected String description;
 
     private static Integer idGenerator;
 
     static {idGenerator = 1;}
 
-    public Task(StringBuilder title, StringBuilder description, Type type, LocalDateTime dateTime) {
+    public Task(String title, String description, Type type, LocalDateTime dateTime) throws IncorrectArgumentExeption {
         this.id = idGenerator;
         idGenerator++;
-        this.title = title;
-        this.type = type;
+        setTitle(title);
+        if (type == null){
+            throw new  IncorrectArgumentExeption("Такого объекта не сщесутвует");
+        }else {this.type = type;}
         this.dateTime = dateTime;
-        this.description = description;
+        setDescription(description);
     }
 
     public abstract boolean appearsIn(LocalDate date);
@@ -33,12 +36,16 @@ public abstract class Task{
         return id;
     }
 
-    public StringBuilder getTitle() {
+    public String getTitle() {
         return title;
     }
 
-    public void setTitle(StringBuilder title) {
-        this.title = title;
+    public void setTitle(String title) throws IncorrectArgumentExeption {
+        if (title == null || title.isBlank()){
+            throw new IncorrectArgumentExeption("Заголовок не может быть пустым!");
+        }else {
+            this.title = title;
+        }
     }
 
     public Type getType() {
@@ -49,16 +56,16 @@ public abstract class Task{
         return dateTime;
     }
 
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
-    }
-
-    public StringBuilder getDescription() {
+    public String getDescription() {
         return description;
     }
 
-    public void setDescription(StringBuilder description) {
-        this.description = description;
+    public void setDescription(String description) throws IncorrectArgumentExeption {
+        if (description == null || description.isBlank()){
+            throw new IncorrectArgumentExeption("Описание не может быть пустым!");
+        }else {
+            this.description = title;
+        }
     }
 
     @Override

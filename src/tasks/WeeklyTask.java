@@ -1,12 +1,13 @@
 package tasks;
 
 import enums.Type;
+import errors.IncorrectArgumentExeption;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class WeeklyTask extends Task{
-    public WeeklyTask(StringBuilder title, StringBuilder description, Type type, LocalDateTime dateTime) {
+    public WeeklyTask(String title, String description, Type type, LocalDateTime dateTime) throws IncorrectArgumentExeption {
         super(title, description, type, dateTime);
     }
 

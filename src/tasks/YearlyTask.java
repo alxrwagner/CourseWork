@@ -1,12 +1,13 @@
 package tasks;
 
 import enums.Type;
+import errors.IncorrectArgumentExeption;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class YearlyTask extends Task {
-    public YearlyTask(StringBuilder title, StringBuilder description, Type type, LocalDateTime dateTime) {
+    public YearlyTask(String title, String description, Type type, LocalDateTime dateTime) throws IncorrectArgumentExeption {
         super(title, description, type, dateTime);
     }
 
