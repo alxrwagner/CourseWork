@@ -5,15 +5,12 @@ import enums.TypeRepeatTask;
 import errors.IncorrectArgumentExeption;
 import errors.TaskNotFoundExeption;
 import tasks.*;
-
-import java.text.ParseException;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.stream.Stream;
 
 public class TaskService {
     private final Scanner reader;
@@ -58,13 +55,13 @@ public class TaskService {
         }
     }
 
-    public void getAllByDate() {
+    private void getAllByDate() {
         LocalDate date = addDate();
         Collection<Task> values = tasks.values();
         values.stream().filter(task -> task.appearsIn(date)).forEach(System.out::println);
     }
 
-    public void addTask() {
+    private void addTask() {
         Task task = createTask();
 
         tasks.put(task.getId(), task);
