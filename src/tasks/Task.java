@@ -7,12 +7,12 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 public abstract class Task{
-    private final Integer id;
-    private final Type type;
+    protected final Integer id;
+    protected final Type type;
 
-    private StringBuilder title;
-    private StringBuilder description;
-    private LocalDateTime dateTime;
+    protected StringBuilder title;
+    protected StringBuilder description;
+    protected LocalDateTime dateTime;
 
     private static Integer idGenerator;
 
@@ -27,7 +27,7 @@ public abstract class Task{
         this.description = description;
     }
 
-    public abstract void appearsIn(LocalDate date);
+    public abstract boolean appearsIn(LocalDate date);
 
     public Integer getId() {
         return id;

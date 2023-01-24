@@ -5,7 +5,5 @@ public class Main {
         TaskService dailyPlanner = new TaskService();
 
         dailyPlanner.startWork();
-//        dailyPlanner.addTask();
-//        System.out.println(dailyPlanner.getTasks().peek());
     }
 }

@@ -2,6 +2,7 @@ package tasks;
 
 import enums.Type;
 
+import javax.sound.sampled.FloatControl;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -11,7 +12,7 @@ public class DailyTask extends Task{
     }
 
     @Override
-    public void appearsIn(LocalDate date) {
-
+    public boolean appearsIn(LocalDate date) {
+        return dateTime.toLocalDate().isBefore(date) || dateTime.toLocalDate().isEqual(date);
     }
 }
