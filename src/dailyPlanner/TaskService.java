@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class TaskService {
 
@@ -19,12 +20,9 @@ public class TaskService {
         this.tasks = new HashMap<>();
     }
 
-    public void getAllByDate(LocalDate date) {
+    public List<Task> getAllByDate(LocalDate date) {
         Collection<Task> values = tasks.values();
-        values.stream().filter(task -> task.appearsIn(date)).forEach(System.out::println);
-        if (values.stream().noneMatch(task -> task.appearsIn(date))){
-            System.out.println(date + " - задач нет\n");
-        }
+        return values.stream().filter(task -> task.appearsIn(date)).collect(Collectors.toList());
     }
 
     public void addTask(Task task) {

@@ -39,7 +39,8 @@ public class Main {
                     break;
                 case "2":
                     LocalDate date = addDate();
-                    dailyPlanner.getAllByDate(date);
+                    System.out.println("Задачи на " + date + "\n");
+                    dailyPlanner.getAllByDate(date).forEach(System.out::println);
                     break;
                 case "3":
                     System.out.println("Введите ID задачи: ");

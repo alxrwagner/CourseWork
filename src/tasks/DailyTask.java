@@ -15,6 +15,6 @@ public class DailyTask extends Task{
 
     @Override
     public boolean appearsIn(LocalDate date) {
-        return ChronoUnit.DAYS.between(dateTime.toLocalDate(), date) == 0;
+        return ChronoUnit.DAYS.between(dateTime.toLocalDate(), date) >= 0;
     }
 }
