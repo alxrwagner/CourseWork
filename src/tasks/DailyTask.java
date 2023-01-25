@@ -6,6 +6,7 @@ import errors.IncorrectArgumentExeption;
 import javax.sound.sampled.FloatControl;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 public class DailyTask extends Task{
     public DailyTask(String title, String description, Type type, LocalDateTime dateTime) throws IncorrectArgumentExeption {
@@ -14,6 +15,6 @@ public class DailyTask extends Task{
 
     @Override
     public boolean appearsIn(LocalDate date) {
-        return dateTime.toLocalDate().isBefore(date) || dateTime.toLocalDate().isEqual(date);
+        return ChronoUnit.DAYS.between(dateTime.toLocalDate(), date) == 0;
     }
 }

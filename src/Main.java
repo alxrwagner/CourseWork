@@ -4,12 +4,9 @@ import errors.IncorrectArgumentExeption;
 import errors.TaskNotFoundExeption;
 import tasks.*;
 
-import java.time.DateTimeException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
+import java.time.format.ResolverStyle;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -38,6 +35,7 @@ public class Main {
                 case "1":
                     Task task = createTask();
                     dailyPlanner.addTask(task);
+                    System.out.println((char) 27 + "[36mЗадача на " + task.getDateTime() + " добавлена " + (char)27 + "[0m");
                     break;
                 case "2":
                     LocalDate date = addDate();
@@ -50,11 +48,11 @@ public class Main {
                         int input = scanner.nextInt();
                         try {
                             dailyPlanner.remove(input);
-                            System.out.println("Задача с ID " + input + " удалена");
+                            System.out.println((char) 27 + "[33mЗадача с ID" + input + " удалена" + (char)27 + "[0m");
                         } catch (TaskNotFoundExeption e) {
                             System.out.println(e.getMessage());
                         }
-                    }else {
+                    } else {
                         System.err.println("Неверный формат ввода. Необходимо ввести число");
                     }
                     break;
@@ -171,19 +169,18 @@ public class Main {
         Scanner reader = new Scanner(System.in);
         System.out.println("Введите дату в формате dd.MM.yyyy: ");
         LocalDate date = null;
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.uuuu");
         boolean isSuccess = false;
 
         while (!isSuccess) {
             try {
-                date = LocalDate.parse(reader.nextLine(), dateFormatter);
+                date = LocalDate.parse(reader.nextLine(), dateFormatter.withResolverStyle(ResolverStyle.STRICT));
                 isSuccess = true;
-            } catch (DateTimeException e) {
-                System.err.println("Неверный формат даты!");
+            } catch (NumberFormatException | NullPointerException | DateTimeException e) {
+                System.err.println(e.getMessage());
                 System.out.println("Попробуйте еще раз: ");
             }
         }
-
         return date;
     }
 

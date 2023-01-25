@@ -5,6 +5,8 @@ import errors.IncorrectArgumentExeption;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Month;
+import java.time.temporal.ChronoUnit;
 
 public class YearlyTask extends Task {
     public YearlyTask(String title, String description, Type type, LocalDateTime dateTime) throws IncorrectArgumentExeption {
@@ -13,16 +15,8 @@ public class YearlyTask extends Task {
 
     @Override
     public boolean appearsIn(LocalDate date) {
-         if (dateTime.toLocalDate().isLeapYear() && !date.isLeapYear()) {
-            return dateTime.toLocalDate().isBefore(date) && dateTime.toLocalDate().getDayOfYear() == date.getDayOfYear() + 1
-                    || dateTime.toLocalDate().isEqual(date);
-        } else if(!dateTime.toLocalDate().isLeapYear() && date.isLeapYear()){
-            return dateTime.toLocalDate().isBefore(date) && dateTime.toLocalDate().getDayOfYear() == date.getDayOfYear() - 1
-                    || dateTime.toLocalDate().isEqual(date);
-        }else {
-            return dateTime.toLocalDate().isBefore(date) && dateTime.toLocalDate().getDayOfYear() == date.getDayOfYear()
-                    || dateTime.toLocalDate().isEqual(date);
-        }
+        return ChronoUnit.DAYS.between(dateTime.toLocalDate(), date) >= 0
+                && dateTime.toLocalDate().getDayOfYear() == date.getDayOfYear();
 
     }
 }

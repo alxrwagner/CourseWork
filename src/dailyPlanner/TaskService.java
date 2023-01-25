@@ -22,7 +22,7 @@ public class TaskService {
     public void getAllByDate(LocalDate date) {
         Collection<Task> values = tasks.values();
         values.stream().filter(task -> task.appearsIn(date)).forEach(System.out::println);
-        if (values.size() == 0){
+        if (values.stream().noneMatch(task -> task.appearsIn(date))){
             System.out.println(date + " - задач нет\n");
         }
     }

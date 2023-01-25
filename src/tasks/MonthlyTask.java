@@ -6,6 +6,7 @@ import errors.IncorrectArgumentExeption;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
+import java.time.temporal.ChronoUnit;
 
 public class MonthlyTask extends Task{
     public MonthlyTask(String title, String description, Type type, LocalDateTime dateTime) throws IncorrectArgumentExeption {
@@ -15,7 +16,8 @@ public class MonthlyTask extends Task{
     @Override
     public boolean appearsIn(LocalDate date) {
         YearMonth yearMonth = YearMonth.of(date.getYear(), date.getMonth());
-        return (dateTime.toLocalDate().isBefore(date) || dateTime.toLocalDate().isEqual(date))
-                && (dateTime.toLocalDate().getDayOfMonth() == date.getDayOfMonth() || dateTime.toLocalDate().getDayOfMonth() >= yearMonth.lengthOfMonth());
+        return ChronoUnit.DAYS.between(dateTime.toLocalDate(), date) >= 0
+                && dateTime.toLocalDate().getDayOfMonth() == date.getDayOfMonth()
+        || dateTime.toLocalDate().getDayOfMonth() >= yearMonth.lengthOfMonth();
     }
 }

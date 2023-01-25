@@ -90,6 +90,7 @@ public abstract class Task{
                 "id: " + id +
                 ", Тип: " + type.toString() +
                 ", Заголовок: " + title +
+                ", Повторяемость: " + this.getClass().getName() +
                 ", Описание: " + description +
                 ", Дата и время уведомления: " + dateTime.format(formatter);
     }

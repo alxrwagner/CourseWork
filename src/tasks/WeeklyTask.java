@@ -5,6 +5,7 @@ import errors.IncorrectArgumentExeption;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 public class WeeklyTask extends Task{
     public WeeklyTask(String title, String description, Type type, LocalDateTime dateTime) throws IncorrectArgumentExeption {
@@ -13,7 +14,7 @@ public class WeeklyTask extends Task{
 
     @Override
     public boolean appearsIn(LocalDate date) {
-        return dateTime.toLocalDate().isAfter(date) || dateTime.toLocalDate().isEqual(date)
-                && dateTime.toLocalDate().getDayOfWeek().equals(date.getDayOfWeek());
+        return ChronoUnit.DAYS.between(dateTime.toLocalDate(), date) >= 0
+                && dateTime.toLocalDate().getDayOfWeek() == date.getDayOfWeek();
     }
 }
