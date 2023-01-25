@@ -2,6 +2,7 @@ import dailyPlanner.TaskService;
 import enums.Type;
 import errors.IncorrectArgumentExeption;
 import errors.TaskNotFoundExeption;
+import org.w3c.dom.ls.LSOutput;
 import tasks.*;
 
 import java.time.*;
@@ -26,7 +27,11 @@ public class Main {
                     "\n1 - Добавить задачу" +
                     "\n2 - Распечатать команды на день" +
                     "\n3 - Удалить задачу по ID" +
-                    "\n4 - Завершить программу");
+                    "\n4 - Посмотреть список удаленных задач" +
+                    "\n5 - Редактировать описание задачи" +
+                    "\n6 - Редактировать заголовок задачи" +
+                    "\n7 - Посмотреть все задачи, сгруппированные по датам" +
+                    "\n8 - Завершить программу");
             System.out.println();
             System.out.println("Введите номер команды: ");
             String userInput = reader.nextLine();
@@ -49,7 +54,7 @@ public class Main {
                         int input = scanner.nextInt();
                         try {
                             dailyPlanner.remove(input);
-                            System.out.println((char) 27 + "[33mЗадача с ID" + input + " удалена" + (char)27 + "[0m");
+                            System.out.println((char) 27 + "[33mЗадача с ID: " + input + " удалена" + (char)27 + "[0m");
                         } catch (TaskNotFoundExeption e) {
                             System.out.println(e.getMessage());
                         }
@@ -58,6 +63,47 @@ public class Main {
                     }
                     break;
                 case "4":
+                    dailyPlanner.getRemovedTasks().forEach(System.out::println);
+                    break;
+                case "5":
+                    System.out.println("Введите ID задачи: ");
+                    Scanner scanner2 = new Scanner(System.in);
+                    String descriptor;
+                    if (scanner2.hasNextInt()) {
+                        int input = scanner2.nextInt();
+                        System.out.println("Введите новое описание задачи: ");
+                        descriptor = new Scanner(System.in).nextLine();
+                        try {
+                            System.out.println("Изменено: " + dailyPlanner.updateDescription(input, descriptor));
+                        } catch (TaskNotFoundExeption | IncorrectArgumentExeption e) {
+                            System.out.println(e.getMessage());
+                        }
+                    } else {
+                        System.err.println("Неверный формат ввода. Необходимо ввести число");
+                    }
+                    break;
+                case "6":
+                    System.out.println("Введите ID задачи: ");
+                    Scanner scanner3 = new Scanner(System.in);
+                    String title;
+                    if (scanner3.hasNextInt()) {
+                        int input = scanner3.nextInt();
+                        System.out.println("Введите новый заголовок задачи: ");
+                        title = new Scanner(System.in).nextLine();
+                        try {
+                            System.out.println("Изменено: " + dailyPlanner.updateTitle(input, title));
+                        } catch (TaskNotFoundExeption | IncorrectArgumentExeption e) {
+                            System.out.println(e.getMessage());
+                        }
+                    } else {
+                        System.err.println("Неверный формат ввода. Необходимо ввести число");
+                    }
+                    break;
+                case "7":
+                    dailyPlanner.getAllGroupeByDate()
+                            .forEach((key, value) -> System.out.println(key + " : " + value));
+                    break;
+                case "8":
                     System.out.println("Завершение работы программы...");
                     isWork = false;
                     break;

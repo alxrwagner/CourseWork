@@ -66,7 +66,7 @@ public abstract class Task{
         if (description == null || description.isBlank()){
             throw new IncorrectArgumentExeption("Описание не может быть пустым!");
         }else {
-            this.description = title;
+            this.description = description;
         }
     }
 
